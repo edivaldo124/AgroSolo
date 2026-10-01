@@ -1,0 +1,47 @@
+{% from "components/ui.html" import icone, simbolo, escala_r2, alerta with context %}
+
+{% macro navegacao(atual) -%}
+{%- set modelos = [
+    ('admin_bp.regressor_linear', 'Linear simples', 'tendencia'),
+    ('admin_bp.regressor_multipla', 'Linear múltipla', 'sigma'),
+    ('admin_bp.regressor_polinomial', 'Polinomial', 'curva'),
+    ('admin_bp.regressor_arvore', 'Árvore de decisão', 'arvore'),
+] -%}
+<nav class="segmentos" aria-label="Escolher modelo">
+    {% for endpoint, nome, nome_icone in modelos %}
+    <a class="segmento segmento--texto" href="{{ url_for(endpoint) }}"{% if endpoint == atual %} aria-current="page"{% endif %}>{{ icone(nome_icone) }}{{ nome }}</a>
+    {% endfor %}
+</nav>
+{%- endmacro %}
+
+{% macro cartao_r2(resultado) -%}
+{%- set alvo = sensores_info[resultado.alvo].nome -%}
+<section class="card" aria-labelledby="titulo-r2">
+    <header class="card__cabecalho card__cabecalho--borda">
+        <h2 class="card__titulo" id="titulo-r2">Qualidade do ajuste (R²)</h2>
+    </header>
+    <div class="card__corpo pilha">
+        <div>
+            <p class="numero-grande">{{ (resultado.r2 * 100) | numero(1) }}<small>%</small></p>
+            <p class="texto-2">da variação de {{ alvo | inicial_minuscula }} é explicada pelo modelo.</p>
+        </div>
+        {{ escala_r2(resultado.r2) }}
+        <p class="texto-2 texto-pequeno">
+            {% if resultado.r2 < 0.3 %}Ajuste fraco: o modelo explica pouco, outras causas pesam mais.
+            {% elif resultado.r2 < 0.7 %}Ajuste moderado: o modelo capta parte do comportamento.
+            {% else %}Ajuste forte: o modelo acompanha bem os dados usados para treiná-lo.{% endif %}
+            O R² é medido nos mesmos dados do treino, então tende a ser otimista.
+        </p>
+    </div>
+</section>
+{%- endmacro %}
+
+{% macro erro(resultado) -%}
+{% call alerta('', 'aviso', titulo='Não foi possível calcular') %}
+    {{ resultado.erro }} O modelo precisa de pelo menos duas leituras com todas as medidas preenchidas.
+{% endcall %}
+{%- endmacro %}
+
+{% macro termo(valor, casas=4) -%}
+{{ ('− ' if valor < 0 else '+ ') ~ (valor | abs | numero(casas)) }}
+{%- endmacro %}

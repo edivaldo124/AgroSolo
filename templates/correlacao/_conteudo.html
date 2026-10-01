@@ -1,0 +1,115 @@
+{# Espera: acao (endpoint do formulário) e o contexto de contexto_correlacao() #}
+{% from "components/ui.html" import icone, simbolo, grafico, menu_grafico, escala_correlacao, alerta, vazio with context %}
+
+<div class="pagina-intro">
+    <div>
+        <h2>As duas medidas andam juntas?</h2>
+        <p>Escolha duas medidas e, se quiser, um período. O coeficiente de Pearson vai de −1 a +1 e usa só as leituras em que as duas foram registradas no mesmo horário.</p>
+    </div>
+</div>
+
+<form action="{{ url_for(acao) }}" method="POST" class="card card__corpo filtros">
+    <div class="campo">
+        <label class="campo__rotulo" for="sensor1">Primeira medida</label>
+        <select class="entrada" name="sensor1" id="sensor1" required>
+            <option value="">Escolha</option>
+            {% for t, info in sensores_info.items() %}
+            <option value="{{ t }}"{% if tipo1 == t %} selected{% endif %}>{{ nome_sensor(t) }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="campo">
+        <label class="campo__rotulo" for="sensor2">Segunda medida</label>
+        <select class="entrada" name="sensor2" id="sensor2" required>
+            <option value="">Escolha</option>
+            {% for t, info in sensores_info.items() %}
+            <option value="{{ t }}"{% if tipo2 == t %} selected{% endif %}>{{ nome_sensor(t) }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="campo">
+        <label class="campo__rotulo" for="data_inicio">De</label>
+        <input class="entrada" type="date" name="data_inicio" id="data_inicio"
+               min="{{ data_min or '' }}" max="{{ data_max or '' }}" value="{{ data_inicio or '' }}">
+    </div>
+    <div class="campo">
+        <label class="campo__rotulo" for="data_fim">Até</label>
+        <input class="entrada" type="date" name="data_fim" id="data_fim"
+               min="{{ data_min or '' }}" max="{{ data_max or '' }}" value="{{ data_fim or '' }}">
+    </div>
+    <div class="filtros__acoes">
+        <button type="submit" class="btn btn--primario">{{ icone('correlacao') }}Calcular correlação</button>
+    </div>
+</form>
+
+{% if aviso %}
+{{ alerta(aviso | replace('⚠ ', ''), 'aviso') }}
+{% endif %}
+
+{% if correlacao is defined %}
+{%- set forca = correlacao | abs -%}
+{%- set intensidade = 'praticamente nenhuma' if forca < 0.1 else 'fraca' if forca < 0.3 else 'moderada' if forca < 0.5 else 'forte' if forca < 0.7 else 'muito forte' -%}
+{%- set n1 = sensores_info[tipo1].nome -%}
+{%- set n2 = sensores_info[tipo2].nome -%}
+
+<div class="grade-lateral">
+    <section class="card" aria-labelledby="titulo-serie">
+        <header class="card__cabecalho">
+            <div>
+                <h2 class="card__titulo" id="titulo-serie">As duas ao longo do tempo</h2>
+                <p class="card__descricao">Cada medida tem seu próprio eixo, porque as escalas são diferentes.</p>
+            </div>
+            <div class="card__ferramentas">
+                <span class="legenda-serie" style="--m: {{ sensores_info[tipo1].cor }}">{{ n1 }}</span>
+                <span class="legenda-serie legenda-serie--tracejada" style="--m: {{ sensores_info[tipo2].cor }}">{{ n2 }}</span>
+                {{ menu_grafico('grafico-serie', 'agrosolo-correlacao-tempo') }}
+            </div>
+        </header>
+        <div class="card__corpo">
+            {{ grafico('grafico-serie', figura_serie, rotulo=n1 ~ ' e ' ~ n2 ~ ' ao longo do tempo') }}
+        </div>
+    </section>
+
+    <section class="card" aria-labelledby="titulo-resultado">
+        <header class="card__cabecalho card__cabecalho--borda">
+            <h2 class="card__titulo" id="titulo-resultado">Resultado</h2>
+        </header>
+        <div class="card__corpo pilha">
+            <div>
+                <p class="numero-grande">{{ correlacao | numero(2) }}</p>
+                <p class="texto-2">Correlação {{ intensidade }}{% if forca >= 0.1 %}, {{ 'direta' if correlacao > 0 else 'inversa' }}{% endif %}.</p>
+            </div>
+            {{ escala_correlacao(correlacao) }}
+            <div class="texto-corrido">
+                {% if forca < 0.1 %}
+                <p>{{ n1 }} e {{ n2 }} variam de forma independente nesse período.</p>
+                {% elif correlacao > 0 %}
+                <p>Quando {{ n1 | inicial_minuscula }} sobe, {{ n2 | inicial_minuscula }} tende a subir também.</p>
+                {% else %}
+                <p>Quando {{ n1 | inicial_minuscula }} sobe, {{ n2 | inicial_minuscula }} tende a descer.</p>
+                {% endif %}
+                <p>Calculado com {{ leituras_usadas | numero(0) }} leituras. Correlação mostra que as medidas andam juntas, não que uma causa a outra.</p>
+            </div>
+        </div>
+    </section>
+</div>
+
+<section class="card" aria-labelledby="titulo-dispersao">
+    <header class="card__cabecalho">
+        <div>
+            <h2 class="card__titulo" id="titulo-dispersao">Uma contra a outra</h2>
+            <p class="card__descricao">Cada ponto é uma leitura. Quanto mais perto da reta tracejada, mais forte a correlação.</p>
+        </div>
+        <div class="card__ferramentas">
+            {{ menu_grafico('grafico-dispersao', 'agrosolo-correlacao-dispersao') }}
+        </div>
+    </header>
+    <div class="card__corpo">
+        {{ grafico('grafico-dispersao', figura_dispersao, rotulo='Dispersão de ' ~ n1 ~ ' contra ' ~ n2) }}
+    </div>
+</section>
+{% elif not aviso %}
+<div class="card">
+    {{ vazio('Escolha as duas medidas', 'O resultado aparece aqui, com o gráfico das duas no tempo e a dispersão de uma contra a outra.') }}
+</div>
+{% endif %}

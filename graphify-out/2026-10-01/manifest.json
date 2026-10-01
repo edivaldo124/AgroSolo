@@ -1,0 +1,392 @@
+{
+  "analise/__init__.py": {
+    "mtime": 1790848777.9500425,
+    "seen": 1790853024.4004138,
+    "ast_hash": "d41d8cd98f00b204e9800998ecf8427e",
+    "semantic_hash": ""
+  },
+  "analise/analisador.py": {
+    "mtime": 1790850507.73372,
+    "seen": 1790853024.400418,
+    "ast_hash": "6ec1fd4bc53f98fa439c4ff60e283062",
+    "semantic_hash": ""
+  },
+  "analise/associacao_regras.py": {
+    "mtime": 1790851275.2477682,
+    "seen": 1790853024.40042,
+    "ast_hash": "6e4246f87c7910a5279fdbe9eda03260",
+    "semantic_hash": ""
+  },
+  "analise/regressor.py": {
+    "mtime": 1790850547.9326663,
+    "seen": 1790853024.4004207,
+    "ast_hash": "ba30b46cd45b834f7c9a73e864aa8fe7",
+    "semantic_hash": ""
+  },
+  "app.py": {
+    "mtime": 1790850597.8052382,
+    "seen": 1790853024.4004214,
+    "ast_hash": "873e0c25be9f5bc3515573b1dd58e445",
+    "semantic_hash": ""
+  },
+  "banco.py": {
+    "mtime": 1790849313.303227,
+    "seen": 1790853024.400422,
+    "ast_hash": "9499ad48f0d65bc1c48c2440ab1050b2",
+    "semantic_hash": ""
+  },
+  "config.py": {
+    "mtime": 1790852963.8224247,
+    "seen": 1790853024.400423,
+    "ast_hash": "4022c014ae8115917146be6a136f6d5f",
+    "semantic_hash": ""
+  },
+  "criarBD.py": {
+    "mtime": 1790849313.3036098,
+    "seen": 1790853024.4004238,
+    "ast_hash": "9a939d6107ad574d86b8e5f5110ebc56",
+    "semantic_hash": ""
+  },
+  "dao/__init__.py": {
+    "mtime": 1790848777.9514523,
+    "seen": 1790853024.4004245,
+    "ast_hash": "d41d8cd98f00b204e9800998ecf8427e",
+    "semantic_hash": ""
+  },
+  "dao/leituraDAO.py": {
+    "mtime": 1790850456.9477096,
+    "seen": 1790853024.4004252,
+    "ast_hash": "7c7db0d1b1310142c097bdc51022254b",
+    "semantic_hash": ""
+  },
+  "dao/usuarioDAO.py": {
+    "mtime": 1790849313.305098,
+    "seen": 1790853024.4004261,
+    "ast_hash": "1f3fa32b6ab87770d70ff02bd017c8aa",
+    "semantic_hash": ""
+  },
+  "decorators.py": {
+    "mtime": 1790849313.3052409,
+    "seen": 1790853024.400427,
+    "ast_hash": "22d50e2ea24885953595d062b5384fe4",
+    "semantic_hash": ""
+  },
+  "grafico/__init__.py": {
+    "mtime": 1790848777.9541116,
+    "seen": 1790853024.4004278,
+    "ast_hash": "d41d8cd98f00b204e9800998ecf8427e",
+    "semantic_hash": ""
+  },
+  "grafico/grafico.py": {
+    "mtime": 1790850508.8697183,
+    "seen": 1790853024.4004285,
+    "ast_hash": "9db95cfb2ec89f8a965049f783cb05ce",
+    "semantic_hash": ""
+  },
+  "hash.py": {
+    "mtime": 1790849313.3058815,
+    "seen": 1790853024.4004292,
+    "ast_hash": "a6cb832d0e1f1476583853d0a3c071e7",
+    "semantic_hash": ""
+  },
+  "modelo/__init__.py": {
+    "mtime": 1790848777.956033,
+    "seen": 1790853024.40043,
+    "ast_hash": "d41d8cd98f00b204e9800998ecf8427e",
+    "semantic_hash": ""
+  },
+  "modelo/admin.py": {
+    "mtime": 1790849313.3058815,
+    "seen": 1790853024.400431,
+    "ast_hash": "3760ce77cd1664c0a131bb6d5d87d580",
+    "semantic_hash": ""
+  },
+  "modelo/leitura.py": {
+    "mtime": 1790850445.0367002,
+    "seen": 1790853024.4004316,
+    "ast_hash": "bcfcfbb2ff022161db17d6d593f38bd1",
+    "semantic_hash": ""
+  },
+  "modelo/usuario.py": {
+    "mtime": 1790849313.3062763,
+    "seen": 1790853024.4004326,
+    "ast_hash": "3dd9015a316cd7b18ea4aebfda34da76",
+    "semantic_hash": ""
+  },
+  "routes/__init__.py": {
+    "mtime": 1790848777.9570484,
+    "seen": 1790853024.4004333,
+    "ast_hash": "d41d8cd98f00b204e9800998ecf8427e",
+    "semantic_hash": ""
+  },
+  "routes/admin_bp.py": {
+    "mtime": 1790850586.361966,
+    "seen": 1790853024.4004343,
+    "ast_hash": "fc33e7f1566a99120d76a876ad9b50e8",
+    "semantic_hash": ""
+  },
+  "routes/leitura_bp.py": {
+    "mtime": 1790850568.138643,
+    "seen": 1790853024.400435,
+    "ast_hash": "4cace68762d3399051ddb3c0c70956f0",
+    "semantic_hash": ""
+  },
+  "routes/usuario_bp.py": {
+    "mtime": 1790850576.1163201,
+    "seen": 1790853024.4004357,
+    "ast_hash": "069bed00dfcab39002a65c8da49eee65",
+    "semantic_hash": ""
+  },
+  "static/js/sidebar.js": {
+    "mtime": 1790849313.310458,
+    "seen": 1790853024.4004364,
+    "ast_hash": "14f26a5072843d7255fd8052f8bc8e03",
+    "semantic_hash": ""
+  },
+  "testarBD.py": {
+    "mtime": 1790850601.8086088,
+    "seen": 1790853024.4004374,
+    "ast_hash": "4eafd16ce79fe3d7e62ac2048767414f",
+    "semantic_hash": ""
+  },
+  "utils.py": {
+    "mtime": 1790850443.8926992,
+    "seen": 1790853024.400438,
+    "ast_hash": "af9d26cd97acb1d96d6664e0b6e9f800",
+    "semantic_hash": ""
+  },
+  ".agents/skills/prisma-composer/SKILL.md": {
+    "mtime": 1788431073.837193,
+    "seen": 1790853024.4004388,
+    "ast_hash": "a1ee4a7206f6e592bd39b0503782fa4a",
+    "semantic_hash": ""
+  },
+  ".claude/CLAUDE.md": {
+    "mtime": 1787192813.5694265,
+    "seen": 1790853024.4004395,
+    "ast_hash": "9b31786b637be3c13978bec4c2330752",
+    "semantic_hash": ""
+  },
+  ".claude/skills/graphify/SKILL.md": {
+    "mtime": 1787192813.5687504,
+    "seen": 1790853024.40044,
+    "ast_hash": "1656a8a8e4a05bbe69f32cd15de81e87",
+    "semantic_hash": ""
+  },
+  ".claude/skills/graphify/references/add-watch.md": {
+    "mtime": 1787192729.9124427,
+    "seen": 1790853024.400441,
+    "ast_hash": "d59d027fe449f06aa03905a01184e779",
+    "semantic_hash": ""
+  },
+  ".claude/skills/graphify/references/exports.md": {
+    "mtime": 1787192729.9124427,
+    "seen": 1790853024.400442,
+    "ast_hash": "9da2a2152e60a22f07f05fed5158f287",
+    "semantic_hash": ""
+  },
+  ".claude/skills/graphify/references/extraction-spec.md": {
+    "mtime": 1787192729.9134426,
+    "seen": 1790853024.4004428,
+    "ast_hash": "42fef56a01698118f7fd722acdadea34",
+    "semantic_hash": ""
+  },
+  ".claude/skills/graphify/references/github-and-merge.md": {
+    "mtime": 1787192729.9134426,
+    "seen": 1790853024.4004436,
+    "ast_hash": "cde13df085e4c492aeb7ba298a996d0d",
+    "semantic_hash": ""
+  },
+  ".claude/skills/graphify/references/hooks.md": {
+    "mtime": 1787192729.9134426,
+    "seen": 1790853024.4004445,
+    "ast_hash": "3f545db6ce646650bb9de588f5512a27",
+    "semantic_hash": ""
+  },
+  ".claude/skills/graphify/references/query.md": {
+    "mtime": 1787192729.9144425,
+    "seen": 1790853024.4004452,
+    "ast_hash": "3c46f8ad006874260614ed8657d02307",
+    "semantic_hash": ""
+  },
+  ".claude/skills/graphify/references/transcribe.md": {
+    "mtime": 1787192729.9144425,
+    "seen": 1790853024.400446,
+    "ast_hash": "67b6a5fa6c0974e18f60db9f8932fbd8",
+    "semantic_hash": ""
+  },
+  ".claude/skills/graphify/references/update.md": {
+    "mtime": 1787192729.9154427,
+    "seen": 1790853024.4004467,
+    "ast_hash": "9378bd03d56baaf78bd738ab3848f142",
+    "semantic_hash": ""
+  },
+  ".claude/skills/prisma-composer/SKILL.md": {
+    "mtime": 1788431073.8331006,
+    "seen": 1790853024.4004476,
+    "ast_hash": "a1ee4a7206f6e592bd39b0503782fa4a",
+    "semantic_hash": ""
+  },
+  ".cursor/skills/prisma-composer/SKILL.md": {
+    "mtime": 1788431073.8360267,
+    "seen": 1790853024.4004483,
+    "ast_hash": "a1ee4a7206f6e592bd39b0503782fa4a",
+    "semantic_hash": ""
+  },
+  ".devin/skills/prisma-composer/SKILL.md": {
+    "mtime": 1788431073.8378155,
+    "seen": 1790853024.400449,
+    "ast_hash": "a1ee4a7206f6e592bd39b0503782fa4a",
+    "semantic_hash": ""
+  },
+  "CLAUDE.md": {
+    "mtime": 1790853021.5744612,
+    "seen": 1790853024.4004498,
+    "ast_hash": "82efb97a359f5c7290bf2513d14686be",
+    "semantic_hash": ""
+  },
+  "README.md": {
+    "mtime": 1790851295.9947891,
+    "seen": 1790853024.4004505,
+    "ast_hash": "f84946ed63b83c1f584939b6c278a5e7",
+    "semantic_hash": ""
+  },
+  "requirements.txt": {
+    "mtime": 1790849313.3062763,
+    "seen": 1790853024.4004517,
+    "ast_hash": "790ec763e4e4307a307e8ff6c8bb70c9",
+    "semantic_hash": ""
+  },
+  "templates/admin/admin_base.html": {
+    "mtime": 1790850650.1245396,
+    "seen": 1790853024.4004543,
+    "ast_hash": "1cfbda405898e089061adae6a357215a",
+    "semantic_hash": ""
+  },
+  "templates/admin/admin_delete_by_date_page.html": {
+    "mtime": 1790850717.5813465,
+    "seen": 1790853024.4004555,
+    "ast_hash": "97273504095ad22de3ca36d2b39d5d7f",
+    "semantic_hash": ""
+  },
+  "templates/admin/admin_login.html": {
+    "mtime": 1790850650.1248324,
+    "seen": 1790853024.4004562,
+    "ast_hash": "1771c3d88050e0e6ab5ffd1290ae92ad",
+    "semantic_hash": ""
+  },
+  "templates/admin/admin_panel.html": {
+    "mtime": 1790850717.581722,
+    "seen": 1790853024.400457,
+    "ast_hash": "a5e2f2df86e085e858a493774d9f48bf",
+    "semantic_hash": ""
+  },
+  "templates/admin/admin_pendentes.html": {
+    "mtime": 1790849313.3118527,
+    "seen": 1790853024.400458,
+    "ast_hash": "29db7b9c6e155d9dd4a8a35132279b01",
+    "semantic_hash": ""
+  },
+  "templates/admin/admin_usuarios.html": {
+    "mtime": 1790849313.3118527,
+    "seen": 1790853024.4004588,
+    "ast_hash": "3457f938305d62ae5ebe4899549d83c8",
+    "semantic_hash": ""
+  },
+  "templates/admin/graficoc.html": {
+    "mtime": 1790850717.5819333,
+    "seen": 1790853024.40046,
+    "ast_hash": "554de40f8e151d5dae2a02ed73817532",
+    "semantic_hash": ""
+  },
+  "templates/admin/sidebar.html": {
+    "mtime": 1790850690.8126786,
+    "seen": 1790853024.4004607,
+    "ast_hash": "3b5ec073e5632c8d98944ed8244eb94c",
+    "semantic_hash": ""
+  },
+  "templates/associacao/associacao_risco.html": {
+    "mtime": 1790850740.8222666,
+    "seen": 1790853024.4004617,
+    "ast_hash": "4ca891e89d914e9b0ee80a5ee1889553",
+    "semantic_hash": ""
+  },
+  "templates/associacao/associacao_solo.html": {
+    "mtime": 1790850740.8220997,
+    "seen": 1790853024.4004622,
+    "ast_hash": "b8c1a8e5a80460f3ed3df4da2084f605",
+    "semantic_hash": ""
+  },
+  "templates/correlacao/admin/correlacao_solo_admin.html": {
+    "mtime": 1790850690.8132157,
+    "seen": 1790853024.400463,
+    "ast_hash": "69b15a6585e0188d9aef49cb4975cca2",
+    "semantic_hash": ""
+  },
+  "templates/correlacao/usuario/correlacao_solo.html": {
+    "mtime": 1790850690.8129823,
+    "seen": 1790853024.4004636,
+    "ast_hash": "eb2429d574eb8ca942a72bef9e182ce4",
+    "semantic_hash": ""
+  },
+  "templates/homepage.html": {
+    "mtime": 1790850650.1240935,
+    "seen": 1790853024.4004643,
+    "ast_hash": "41f352153a31a98856661313e695215f",
+    "semantic_hash": ""
+  },
+  "templates/regressor/arvore.html": {
+    "mtime": 1790850740.8226626,
+    "seen": 1790853024.4004653,
+    "ast_hash": "8c5356d9d73275525db6b3df86278144",
+    "semantic_hash": ""
+  },
+  "templates/regressor/linear.html": {
+    "mtime": 1790850740.822398,
+    "seen": 1790853024.400466,
+    "ast_hash": "fc4dba32c0672d4bc95a38cdda68d09c",
+    "semantic_hash": ""
+  },
+  "templates/regressor/multipla.html": {
+    "mtime": 1790850740.822533,
+    "seen": 1790853024.4004667,
+    "ast_hash": "2efd508168c29734e19bd9014ebe7649",
+    "semantic_hash": ""
+  },
+  "templates/regressor/polinomial.html": {
+    "mtime": 1790850740.822803,
+    "seen": 1790853024.4004676,
+    "ast_hash": "43b126a9e6337187ee61b0cb47909210",
+    "semantic_hash": ""
+  },
+  "templates/usuario/cadastro.html": {
+    "mtime": 1790849313.3136091,
+    "seen": 1790853024.4004686,
+    "ast_hash": "834dc7bb0d3fbb805a5dce70eddf8787",
+    "semantic_hash": ""
+  },
+  "templates/usuario/grafico.html": {
+    "mtime": 1790850650.1244125,
+    "seen": 1790853024.4004695,
+    "ast_hash": "39c87d8fcdc98c1a4e4bbbbaaa16dd98",
+    "semantic_hash": ""
+  },
+  "templates/usuario/login_user.html": {
+    "mtime": 1790849313.3139498,
+    "seen": 1790853024.4004703,
+    "ast_hash": "ca41f1883db2000dd6fc57ad38454d40",
+    "semantic_hash": ""
+  },
+  "templates/usuario/painel.html": {
+    "mtime": 1790850650.12357,
+    "seen": 1790853024.400471,
+    "ast_hash": "5f9d217b7012a1180a6487bb1bd3b8b7",
+    "semantic_hash": ""
+  },
+  "templates/usuario/user_list.html": {
+    "mtime": 1790850717.5821264,
+    "seen": 1790853024.400472,
+    "ast_hash": "843a6a21b187584c0176d23a52ce38da",
+    "semantic_hash": ""
+  }
+}

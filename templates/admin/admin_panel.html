@@ -1,0 +1,42 @@
+{% extends "layouts/app.html" %}
+{% from "components/ui.html" import icone with context %}
+
+{% block titulo %}Todas as leituras{% endblock %}
+
+{% block conteudo %}
+<div class="pagina-intro">
+    <div>
+        <h2>Leituras do sensor</h2>
+        <p>Filtre por período ou medida. Para apagar muitas leituras de uma vez, use <a href="{{ url_for('admin_bp.delete_by_date_page') }}">Excluir por período</a>.</p>
+    </div>
+</div>
+
+<form class="card card__corpo filtros" method="GET" action="{{ url_for('admin_bp.filtrar_leituras') }}" aria-label="Filtrar leituras">
+    <div class="campo">
+        <label class="campo__rotulo" for="data_inicio">De</label>
+        <input class="entrada" type="datetime-local" id="data_inicio" name="data_inicio" value="{{ request.args.get('data_inicio', '') }}">
+    </div>
+    <div class="campo">
+        <label class="campo__rotulo" for="data_fim">Até</label>
+        <input class="entrada" type="datetime-local" id="data_fim" name="data_fim" value="{{ request.args.get('data_fim', '') }}">
+    </div>
+    <div class="campo">
+        <label class="campo__rotulo" for="tipo">Medida</label>
+        <select class="entrada" id="tipo" name="tipo">
+            <option value="">Todas as medidas</option>
+            {% for s in sensores %}
+            <option value="{{ s }}"{% if request.args.get('tipo') == s %} selected{% endif %}>{{ nome_sensor(s) }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="filtros__acoes">
+        <button type="submit" class="btn btn--primario">{{ icone('filtro') }}Filtrar</button>
+        {% if request.endpoint == 'admin_bp.filtrar_leituras' %}
+        <a class="btn btn--fantasma" href="{{ url_for('admin_bp.admin_page') }}">Limpar</a>
+        {% endif %}
+    </div>
+</form>
+
+{% set admin = True %}
+{% include "partials/tabela_leituras.html" %}
+{% endblock %}

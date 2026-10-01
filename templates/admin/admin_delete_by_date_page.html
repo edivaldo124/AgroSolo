@@ -1,0 +1,44 @@
+{% extends "layouts/app.html" %}
+{% from "components/ui.html" import icone, alerta with context %}
+
+{% block titulo %}Excluir por período{% endblock %}
+
+{% block conteudo %}
+<div class="grade-lateral">
+    <section class="card" aria-labelledby="titulo-excluir">
+        <header class="card__cabecalho card__cabecalho--borda">
+            <div>
+                <h2 class="card__titulo" id="titulo-excluir">Excluir leituras de uma medida</h2>
+                <p class="card__descricao">Útil para limpar leituras de teste ou de um período em que o sensor falhou.</p>
+            </div>
+        </header>
+        <form method="POST" action="{{ url_for('admin_bp.delete_by_date_page') }}" class="card__corpo filtros"
+              data-confirmar="Excluir as leituras dessa medida no período escolhido? Não dá para desfazer.">
+            <div class="campo">
+                <label class="campo__rotulo" for="sensor">Medida</label>
+                <select class="entrada" name="sensor" id="sensor" required>
+                    {% for tipo, info in sensores_info.items() %}
+                    <option value="{{ tipo }}">{{ nome_sensor(tipo) }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="campo">
+                <label class="campo__rotulo" for="data_inicio">De</label>
+                <input class="entrada" type="date" name="data_inicio" id="data_inicio" required>
+            </div>
+            <div class="campo">
+                <label class="campo__rotulo" for="data_fim">Até (inclusive)</label>
+                <input class="entrada" type="date" name="data_fim" id="data_fim" required>
+            </div>
+            <div class="filtros__acoes">
+                <button type="submit" class="btn btn--perigo">{{ icone('lixeira') }}Excluir leituras</button>
+            </div>
+        </form>
+    </section>
+
+    {% call alerta('', 'aviso', titulo='Não dá para desfazer') %}
+        As leituras apagadas somem também dos gráficos, da correlação, das regras e das regressões.
+        Só a medida escolhida é apagada; as outras seis do mesmo horário continuam.
+    {% endcall %}
+</div>
+{% endblock %}

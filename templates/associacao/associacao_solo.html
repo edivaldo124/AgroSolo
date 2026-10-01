@@ -1,0 +1,9 @@
+{% extends "layouts/app.html" %}
+
+{% block titulo %}Regras do solo{% endblock %}
+
+{% block conteudo %}
+{% set titulo = 'Combinações que se repetem no solo' %}
+{% set descricao = 'Cada leitura vira um conjunto de faixas (umidade baixa, pH neutro, N alto...). O algoritmo Apriori procura as faixas que costumam aparecer juntas.' %}
+{% include "associacao/_regras.html" %}
+{% endblock %}

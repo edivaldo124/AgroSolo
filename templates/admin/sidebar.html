@@ -1,0 +1,85 @@
+<nav class="sidebar">
+    <h2 class="menu-title">{{ nome_projeto }}</h2>
+
+    <button class="dropdown-btn" type="button">
+        Correlações
+    </button>
+
+    <div class="dropdown-container">
+        <a href="{{ url_for('admin_bp.pagina_correlacao_solo') }}">
+            Solo × Solo
+        </a>
+    </div>
+
+    <button class="dropdown-btn" type="button">
+        Associação de Regras
+    </button>
+
+    <div class="dropdown-container">
+        <a href="{{ url_for('admin_bp.regras_solo') }}">
+            Regras do Solo
+        </a>
+
+        <a href="{{ url_for('admin_bp.regras_risco') }}">
+            Riscos do Solo
+        </a>
+    </div>
+
+    <button class="dropdown-btn" type="button">
+        Regressores
+    </button>
+
+    <div class="dropdown-container">
+        <a href="{{ url_for('admin_bp.regressor_linear') }}">
+            Linear Simples
+        </a>
+
+        <a href="{{ url_for('admin_bp.regressor_multipla') }}">
+            Linear Múltipla
+        </a>
+
+        <a href="{{ url_for('admin_bp.regressor_arvore') }}">
+            Árvore de Decisão
+        </a>
+
+        <a href="{{ url_for('admin_bp.regressor_polinomial') }}">
+            Polinomial
+        </a>
+    </div>
+
+    <button class="dropdown-btn" type="button">
+        Usuários
+    </button>
+
+    <div class="dropdown-container">
+        <a href="{{ url_for('admin_bp.admin_usuarios') }}">
+            Usuários Ativos
+        </a>
+
+        <a href="{{ url_for('admin_bp.usuarios_pendentes') }}">
+            Usuários Pendentes
+        </a>
+    </div>
+
+    <button class="dropdown-btn" type="button">
+        Leituras
+    </button>
+
+    <div class="dropdown-container">
+        <a href="{{ url_for('admin_bp.grafico_filtrado') }}">
+            Visualizar Gráfico
+        </a>
+
+        <a href="{{ url_for('admin_bp.delete_by_date_page') }}">
+            Excluir por Data
+        </a>
+
+        <a href="{{ url_for('admin_bp.admin_page') }}">
+            Todas as Leituras
+        </a>
+    </div>
+
+    <a href="{{ url_for('admin_bp.admin_logout') }}">
+        Sair
+    </a>
+</nav>

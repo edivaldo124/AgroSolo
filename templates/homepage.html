@@ -1,0 +1,54 @@
+{% extends "layouts/publico.html" %}
+{% from "components/perfil.html" import perfil with context %}
+
+{% block titulo %}Monitoramento do solo{% endblock %}
+
+{% block conteudo %}
+<section class="heroi" aria-labelledby="heroi-titulo">
+    <div>
+        <h1 class="heroi__titulo" id="heroi-titulo">Sete medidas do solo, lidas por um só sensor.</h1>
+        <p class="heroi__texto">
+            Um sensor RS485 instalado no IFPB, campus Sousa, mede umidade, temperatura,
+            condutividade elétrica, pH, nitrogênio, fósforo e potássio ao mesmo tempo.
+            Entre para ver o histórico de cada medida e comparar uma com a outra.
+        </p>
+        <div class="heroi__acoes">
+            {% if current_user.is_authenticated %}
+            <a class="btn btn--primario" href="{{ url_for('admin_bp.admin_page') if current_user.is_admin else url_for('user_bp.painel_usuario') }}">Abrir painel</a>
+            {% else %}
+            <a class="btn btn--primario" href="{{ url_for('user_bp.login') }}">Entrar</a>
+            <a class="btn" href="{{ url_for('user_bp.cadastro') }}">Criar conta</a>
+            {% endif %}
+        </div>
+        {% if not current_user.is_authenticated %}
+        <p class="heroi__nota">Contas novas são liberadas pelo administrador do projeto.</p>
+        {% endif %}
+    </div>
+
+    <div class="heroi__perfil">
+        {{ perfil(animado=True) }}
+    </div>
+</section>
+
+<section class="percurso" aria-labelledby="percurso-titulo">
+    <h2 class="percurso__titulo" id="percurso-titulo">Como a leitura chega até aqui</h2>
+    <ol class="percurso__passos">
+        <li class="percurso__passo">
+            <h3>O sensor lê o solo</h3>
+            <p>As sete medidas saem juntas, pelo protocolo Modbus RTU.</p>
+        </li>
+        <li class="percurso__passo">
+            <h3>O microcontrolador envia</h3>
+            <p>Um ESP32 com MAX485 manda os valores para este servidor.</p>
+        </li>
+        <li class="percurso__passo">
+            <h3>O servidor confere</h3>
+            <p>Valor fora da faixa do sensor é recusado antes de ser salvo.</p>
+        </li>
+        <li class="percurso__passo">
+            <h3>Você analisa</h3>
+            <p>Gráfico de cada medida e correlação entre duas delas. O administrador também vê regras de associação e regressões.</p>
+        </li>
+    </ol>
+</section>
+{% endblock %}

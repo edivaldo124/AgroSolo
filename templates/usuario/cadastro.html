@@ -1,0 +1,26 @@
+{% extends "layouts/auth.html" %}
+{% from "components/ui.html" import campo_senha with context %}
+
+{% block titulo %}Criar conta{% endblock %}
+{% block cabecalho %}Criar conta{% endblock %}
+{% block subtitulo %}O administrador do projeto revisa cada cadastro. Você consegue entrar depois que ele aprovar.{% endblock %}
+
+{% block formulario %}
+<form method="POST">
+    <div class="campo">
+        <label class="campo__rotulo" for="nome">Nome</label>
+        <input class="entrada" type="text" id="nome" name="nome" autocomplete="name" required autofocus>
+    </div>
+
+    <div class="campo">
+        <label class="campo__rotulo" for="email">Email</label>
+        <input class="entrada" type="email" id="email" name="email" autocomplete="email" inputmode="email" required>
+    </div>
+
+    {{ campo_senha('senha', 'senha', 'Senha', autocomplete='new-password') }}
+
+    <button type="submit" class="btn btn--primario btn--bloco">Criar conta</button>
+</form>
+
+<p class="auth__troca">Já tem conta? <a href="{{ url_for('user_bp.login') }}">Entrar</a></p>
+{% endblock %}

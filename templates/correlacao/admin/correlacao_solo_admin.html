@@ -1,0 +1,9 @@
+{% extends "layouts/app.html" %}
+
+{% block titulo %}Correlação entre medidas{% endblock %}
+{% block scripts_cabecalho %}{% if correlacao is defined %}<script defer src="{{ url_for('plotly_js') }}"></script>{% endif %}{% endblock %}
+
+{% block conteudo %}
+{% set acao = 'admin_bp.pagina_correlacao_solo' %}
+{% include "correlacao/_conteudo.html" %}
+{% endblock %}

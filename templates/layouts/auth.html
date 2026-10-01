@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% from "components/ui.html" import botao_tema, mensagens_flash with context %}
+{% from "components/perfil.html" import perfil, estratos with context %}
+
+{% block corpo %}
+<div class="auth">
+    <aside class="auth__solo" aria-label="Sobre o {{ nome_projeto }}">
+        <a class="marca" href="{{ url_for('home') }}">{{ estratos() }}{{ nome_projeto }}</a>
+        {{ perfil(compacto=True) }}
+        <p class="auth__legenda">Um sensor enterrado no IFPB, campus Sousa, lê as sete medidas do solo de uma só vez.</p>
+    </aside>
+
+    <div class="auth__lado">
+        <div class="auth__topo">
+            <a class="marca" href="{{ url_for('home') }}">{{ estratos() }}{{ nome_projeto }}</a>
+            <div class="publico__acoes">
+                {% block acao_topo %}{% endblock %}
+                {{ botao_tema() }}
+            </div>
+        </div>
+
+        <main class="auth__centro">
+            <div class="auth__form">
+                <h1 class="auth__titulo">{% block cabecalho %}{% endblock %}</h1>
+                <p class="auth__subtitulo">{% block subtitulo %}{% endblock %}</p>
+                {{ mensagens_flash() }}
+                {% block formulario %}{% endblock %}
+            </div>
+        </main>
+    </div>
+</div>
+{% endblock %}

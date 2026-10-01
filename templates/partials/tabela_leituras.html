@@ -1,0 +1,46 @@
+{# Espera: leituras, admin (bool) #}
+{% from "components/ui.html" import icone, medida_rotulo, paginacao, vazio with context %}
+{% set pag = paginar(leituras, request.args.get('pagina', 1) | int) %}
+
+<section class="card" aria-label="Leituras">
+    {% if pag.total %}
+    <div class="tabela-rolagem">
+        <table class="tabela">
+            <thead>
+                <tr>
+                    <th scope="col">Data</th>
+                    <th scope="col">Medida</th>
+                    <th scope="col" class="num">Valor</th>
+                    <th scope="col" class="ocultar-celular">Sensor</th>
+                    <th scope="col" class="num ocultar-celular">Nº</th>
+                    {% if admin %}<th scope="col" class="acoes"><span class="oculto">Ações</span></th>{% endif %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for l in pag.itens %}
+                <tr>
+                    <td class="data">{{ l.timestamp | data_br }}</td>
+                    <td>{% if l.tipo in sensores_info %}{{ medida_rotulo(l.tipo) }}{% else %}{{ l.tipo }}{% endif %}</td>
+                    <td class="num">{{ l.valor | valor_medida(l.tipo) }}</td>
+                    <td class="discreto ocultar-celular">{{ l.sensor_id }}</td>
+                    <td class="num discreto ocultar-celular">{{ l.id }}</td>
+                    {% if admin %}
+                    <td class="acoes">
+                        <form method="POST" action="{{ url_for('admin_bp.admin_delete_by_id', id=l.id) }}"
+                              data-confirmar="Excluir a leitura nº {{ l.id }} ({{ nome_sensor(l.tipo) }}, {{ l.timestamp | data_br }})? Não dá para desfazer.">
+                            <button type="submit" class="btn btn--fantasma btn--icone btn--pequeno" aria-label="Excluir leitura nº {{ l.id }}" title="Excluir leitura">{{ icone('lixeira') }}</button>
+                        </form>
+                    </td>
+                    {% endif %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {{ paginacao(pag, 'leituras') }}
+    {% elif request.args %}
+    {{ vazio('Nenhuma leitura com esses filtros', 'Amplie o período ou escolha outra medida.', url_for(request.endpoint), 'Limpar filtros') }}
+    {% else %}
+    {{ vazio('Nenhuma leitura salva', 'As leituras aparecem aqui assim que o sensor enviar dados para /leituras/receber.') }}
+    {% endif %}
+</section>

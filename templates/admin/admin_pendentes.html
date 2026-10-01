@@ -1,0 +1,50 @@
+{% extends "layouts/app.html" %}
+{% from "components/ui.html" import icone, avatar, vazio with context %}
+
+{% block titulo %}Esperando aprovação{% endblock %}
+
+{% block conteudo %}
+<div class="pagina-intro">
+    <div>
+        <h2>Cadastros esperando aprovação</h2>
+        <p>A pessoa só consegue entrar depois de aprovada. Recusar apaga o cadastro.</p>
+    </div>
+</div>
+
+<section class="card" aria-label="Cadastros esperando aprovação">
+    {% if usuarios %}
+    <div class="tabela-rolagem">
+        <table class="tabela">
+            <thead>
+                <tr>
+                    <th scope="col">Nome</th>
+                    <th scope="col">Email</th>
+                    <th scope="col" class="acoes"><span class="oculto">Ações</span></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for u in usuarios %}
+                <tr>
+                    <td><span class="medida-rotulo">{{ avatar(u.nome, 'pequeno') }}<span>{{ u.nome }}</span></span></td>
+                    <td class="discreto">{{ u.email }}</td>
+                    <td class="acoes">
+                        <div class="acoes-em-linha">
+                            <form method="POST" action="{{ url_for('admin_bp.recusar_usuario', id=u.id) }}"
+                                  data-confirmar="Recusar o cadastro de {{ u.nome }}? O cadastro será apagado.">
+                                <button type="submit" class="btn btn--perigo-contorno btn--pequeno">Recusar</button>
+                            </form>
+                            <form method="POST" action="{{ url_for('admin_bp.aprovar_usuario', id=u.id) }}">
+                                <button type="submit" class="btn btn--primario btn--pequeno">{{ icone('certo') }}Aprovar</button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    {{ vazio('Nenhum cadastro esperando', 'Quando alguém criar uma conta, o pedido aparece aqui para você aprovar ou recusar.') }}
+    {% endif %}
+</section>
+{% endblock %}

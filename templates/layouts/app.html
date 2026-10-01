@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% from "components/ui.html" import icone, avatar, botao_tema, dropdown, mensagens_flash with context %}
+{% from "components/perfil.html" import estratos %}
+
+{% block corpo %}
+{%- set admin = current_user.is_admin -%}
+{%- set nome_usuario = current_user.nome if current_user.nome is defined else 'Administrador' -%}
+<a class="pular" href="#conteudo">Pular para o conteúdo</a>
+<div class="app">
+    <aside class="rail" id="rail" aria-label="Menu principal">
+        <div class="rail__topo">
+            <a class="marca" href="{{ url_for('user_bp.painel_usuario') }}">{{ estratos() }}{{ nome_projeto }}</a>
+            <button type="button" class="btn btn--fantasma btn--icone rail__fechar" data-fechar-rail aria-label="Fechar menu">{{ icone('x') }}</button>
+        </div>
+        <nav aria-label="Seções">
+            {% include "partials/nav.html" %}
+        </nav>
+    </aside>
+    <div class="rail-veu" data-fechar-rail></div>
+
+    <div class="app__principal">
+        <header class="topo">
+            <button type="button" class="btn btn--fantasma btn--icone topo__menu" data-abrir-rail aria-controls="rail" aria-expanded="false" aria-label="Abrir menu">{{ icone('menu') }}</button>
+            <h1 class="topo__titulo">{% block titulo_pagina %}{{ self.titulo() }}{% endblock %}</h1>
+            <div class="topo__acoes">
+                {{ botao_tema() }}
+                {% set gatilho_usuario %}{{ avatar(nome_usuario, 'pequeno') }}<span class="usuario-botao__nome texto-pequeno">{{ nome_usuario.split()[0] }}</span>{{ icone('seta-baixo-chevron') }}{% endset %}
+                {% call dropdown('Conta de ' ~ nome_usuario, gatilho_usuario, 'usuario-botao') %}
+                    <div class="dropdown__cabecalho">
+                        <strong>{{ nome_usuario }}</strong>
+                        <span>{{ current_user.email if current_user.email is defined else 'Acesso de administrador' }}</span>
+                    </div>
+                    <a class="dropdown__item" role="menuitem" href="{{ url_for('user_bp.painel_usuario') }}">{{ icone('painel') }}Painel</a>
+                    <hr class="dropdown__separador">
+                    <a class="dropdown__item dropdown__item--perigo" role="menuitem" href="{{ url_for('admin_bp.admin_logout') if admin else url_for('user_bp.logout') }}">{{ icone('sair') }}Sair</a>
+                {% endcall %}
+            </div>
+        </header>
+
+        <main id="conteudo" class="conteudo">
+            {{ mensagens_flash() }}
+            {% block conteudo %}{% endblock %}
+        </main>
+    </div>
+</div>
+{% endblock %}

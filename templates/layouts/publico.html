@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% from "components/ui.html" import botao_tema, mensagens_flash with context %}
+{% from "components/perfil.html" import estratos %}
+
+{% block corpo %}
+<a class="pular" href="#conteudo">Pular para o conteúdo</a>
+<div class="publico">
+    <header class="publico__topo">
+        <a class="marca" href="{{ url_for('home') }}">{{ estratos() }}{{ nome_projeto }}</a>
+        <div class="publico__acoes">
+            {{ botao_tema() }}
+            {% if current_user.is_authenticated %}
+            <a class="btn btn--primario" href="{{ url_for('admin_bp.admin_page') if current_user.is_admin else url_for('user_bp.painel_usuario') }}">Abrir painel</a>
+            {% else %}
+            <a class="btn btn--fantasma ocultar-mobile" href="{{ url_for('user_bp.cadastro') }}">Criar conta</a>
+            <a class="btn btn--primario" href="{{ url_for('user_bp.login') }}">Entrar</a>
+            {% endif %}
+        </div>
+    </header>
+
+    <main id="conteudo" class="publico__conteudo">
+        {{ mensagens_flash() }}
+        {% block conteudo %}{% endblock %}
+    </main>
+
+    <footer class="publico__rodape">
+        <p>Projeto {{ nome_projeto }}, IFPB campus Sousa, {{ ano_atual }}.</p>
+    </footer>
+</div>
+{% endblock %}

@@ -1,0 +1,59 @@
+{% extends "layouts/app.html" %}
+{% from "regressor/_comum.html" import navegacao, cartao_r2, erro, termo with context %}
+{% from "components/ui.html" import medida_rotulo, badge with context %}
+
+{% block titulo %}Regressão linear múltipla{% endblock %}
+
+{% block conteudo %}
+{{ navegacao('admin_bp.regressor_multipla') }}
+
+{% if resultado.erro %}
+{{ erro(resultado) }}
+{% else %}
+{%- set y = sensores_info[resultado.alvo] -%}
+<div class="pagina-intro">
+    <div>
+        <h2>Prever {{ y.nome | inicial_minuscula }} com as outras seis medidas</h2>
+        <p>Cada coeficiente diz quanto {{ y.nome | inicial_minuscula }} muda quando aquela medida sobe uma unidade e as demais ficam paradas.</p>
+    </div>
+</div>
+
+<div class="grade-lateral">
+    <section class="card" aria-labelledby="titulo-coef">
+        <header class="card__cabecalho">
+            <h2 class="card__titulo" id="titulo-coef">Peso de cada medida</h2>
+        </header>
+        <div class="tabela-rolagem">
+            <table class="tabela">
+                <thead>
+                    <tr>
+                        <th scope="col">Medida</th>
+                        <th scope="col" class="num">Coeficiente</th>
+                        <th scope="col">Efeito de +1 unidade</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for tipo, coef in resultado.coeficientes.items() %}
+                    {% set info = sensores_info[tipo] %}
+                    <tr>
+                        <td>{{ medida_rotulo(tipo, com_unidade=True) }}</td>
+                        <td class="num">{{ coef | numero(4) }}</td>
+                        <td>
+                            {% if coef > 0 %}{{ badge('sobe', 'sucesso', 'sobe') }}{% elif coef < 0 %}{{ badge('desce', 'perigo', 'desce') }}{% else %}{{ badge('não muda') }}{% endif %}
+                            <span class="texto-2 texto-pequeno">{{ coef | abs | numero(4) }}{{ ' ' ~ y.unidade if y.unidade }}</span>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="card__rodape">
+            <span>Intercepto: {{ resultado.intercepto | numero(4) }}{{ ' ' ~ y.unidade if y.unidade }}</span>
+            <span>As medidas têm escalas diferentes; compare o sinal, não o tamanho.</span>
+        </div>
+    </section>
+
+    {{ cartao_r2(resultado) }}
+</div>
+{% endif %}
+{% endblock %}

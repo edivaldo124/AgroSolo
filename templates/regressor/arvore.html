@@ -1,0 +1,53 @@
+{% extends "layouts/app.html" %}
+{% from "regressor/_comum.html" import navegacao, cartao_r2, erro with context %}
+{% from "components/ui.html" import medida_rotulo, barra with context %}
+
+{% block titulo %}Árvore de decisão{% endblock %}
+
+{% block conteudo %}
+{{ navegacao('admin_bp.regressor_arvore') }}
+
+{% if resultado.erro %}
+{{ erro(resultado) }}
+{% else %}
+{%- set y = sensores_info[resultado.alvo] -%}
+<div class="pagina-intro">
+    <div>
+        <h2>Regras automáticas para prever {{ y.nome | inicial_minuscula }}</h2>
+        <p>A árvore divide as leituras em perguntas do tipo "o pH é menor que 6,2?" até chegar a um valor previsto. Ela capta relações que não são retas.</p>
+    </div>
+</div>
+
+<div class="grade-lateral">
+    <section class="card" aria-labelledby="titulo-imp">
+        <header class="card__cabecalho">
+            <div>
+                <h2 class="card__titulo" id="titulo-imp">Quanto cada medida pesou</h2>
+                <p class="card__descricao">Profundidade {{ resultado.profundidade }}, com {{ resultado.folhas }} folhas (valores finais possíveis).</p>
+            </div>
+        </header>
+        <div class="tabela-rolagem">
+            <table class="tabela">
+                <thead>
+                    <tr>
+                        <th scope="col">Medida</th>
+                        <th scope="col">Importância</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for tipo, imp in resultado.importancias | dictsort(by='value', reverse=True) %}
+                    <tr>
+                        <td>{{ medida_rotulo(tipo) }}</td>
+                        <td>{{ barra(imp, sensores_info[tipo].cor, (imp * 100) | numero(1) ~ ' %') }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="card__rodape">As importâncias somam 100 %.</div>
+    </section>
+
+    {{ cartao_r2(resultado) }}
+</div>
+{% endif %}
+{% endblock %}

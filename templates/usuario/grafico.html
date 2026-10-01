@@ -1,0 +1,58 @@
+{% extends "layouts/app.html" %}
+{% from "components/ui.html" import icone, simbolo, grafico, menu_grafico, vazio with context %}
+{% set info = sensores_info[tipo] %}
+
+{% block titulo %}{{ info.nome }}{% endblock %}
+{% block scripts_cabecalho %}{% if figura %}<script defer src="{{ url_for('plotly_js') }}"></script>{% endif %}{% endblock %}
+
+{% block conteudo %}
+<nav class="segmentos" aria-label="Escolher medida">
+    {% for t, i in sensores_info.items() %}
+    <a class="segmento" href="{{ url_for('leitura_bp.view_grafico', tipo=t) }}"{% if t == tipo %} aria-current="page"{% endif %}>
+        {{ simbolo(t, 'pequeno') }}{{ i.nome }}
+    </a>
+    {% endfor %}
+</nav>
+
+{% if figura %}
+<section class="card" style="--m: {{ info.cor }}" aria-labelledby="titulo-grafico">
+    <header class="card__cabecalho">
+        <div class="medida-rotulo">
+            {{ simbolo(tipo, 'grande') }}
+            <div>
+                <h2 class="card__titulo" id="titulo-grafico">{{ info.nome }}</h2>
+                <p class="card__descricao">Histórico com {{ estatisticas.quantidade | numero(0) }} leituras. Arraste sobre o gráfico para aproximar um trecho.</p>
+            </div>
+        </div>
+        <div class="card__ferramentas">
+            {{ menu_grafico('grafico-medida', 'agrosolo-' ~ tipo) }}
+        </div>
+    </header>
+    <div class="card__corpo">
+        {{ grafico('grafico-medida', figura, rotulo='Linha do tempo de ' ~ info.nome) }}
+    </div>
+    <dl class="estatisticas">
+        <div class="estatistica">
+            <dt>Última</dt>
+            <dd>{{ estatisticas.ultima.valor | valor_medida(tipo) }}</dd>
+        </div>
+        <div class="estatistica">
+            <dt>Mínima</dt>
+            <dd>{{ estatisticas.minimo | valor_medida(tipo) }}</dd>
+        </div>
+        <div class="estatistica">
+            <dt>Média</dt>
+            <dd>{{ estatisticas.media | valor_medida(tipo) }}</dd>
+        </div>
+        <div class="estatistica">
+            <dt>Máxima</dt>
+            <dd>{{ estatisticas.maximo | valor_medida(tipo) }}</dd>
+        </div>
+    </dl>
+</section>
+{% else %}
+<div class="card">
+    {{ vazio('Sem leituras de ' ~ info.nome, aviso, url_for('user_bp.painel_usuario'), 'Voltar ao painel') }}
+</div>
+{% endif %}
+{% endblock %}

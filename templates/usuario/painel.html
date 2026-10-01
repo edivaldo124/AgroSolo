@@ -1,0 +1,126 @@
+{% extends "layouts/app.html" %}
+{% from "components/ui.html" import icone, simbolo, badge, vazio with context %}
+
+{% block titulo %}Painel{% endblock %}
+
+{% block conteudo %}
+{% if not ultima %}
+<div class="card">
+    {{ vazio(
+        'O sensor ainda não enviou leituras',
+        'Quando o microcontrolador mandar a primeira leitura para /leituras/receber, as sete medidas aparecem aqui com a tendência recente de cada uma.'
+    ) }}
+</div>
+{% else %}
+<div class="pagina-intro">
+    <div>
+        <h2>Como está o solo agora</h2>
+        <p>Última leitura do sensor {{ ultima.sensor_id }} em {{ ultima.timestamp | data_br }}. Clique numa medida para ver o histórico completo.</p>
+    </div>
+    <div class="pagina-intro__acoes">
+        <button type="button" class="btn" data-organizar="widgets-painel" aria-pressed="false">{{ icone('grade') }}<span data-rotulo>Organizar painel</span></button>
+        <button type="button" class="btn btn--fantasma" data-restaurar="widgets-painel" hidden>{{ icone('restaurar') }}Ordem original</button>
+    </div>
+</div>
+
+<p class="widgets__dica" data-dica="widgets-painel" hidden>
+    Arraste os cartões para mudar a ordem. No teclado, foque um cartão e use Alt + setas. No celular, toque e segure antes de arrastar. A ordem fica salva neste navegador.
+</p>
+<p class="oculto" aria-live="polite" data-anuncio="widgets-painel"></p>
+
+<div class="widgets" id="widgets-painel" data-widgets>
+    <section class="widget widget--largo" data-widget="resumo" aria-label="Resumo das leituras">
+        <div class="widget__cabecalho">
+            <h3 class="widget__titulo">Resumo das leituras</h3>
+            <span class="widget__alca">{{ icone('alca') }}</span>
+        </div>
+        <div class="widget__corpo">
+            <dl class="resumo-leitura">
+                <div>
+                    <dt>Leituras salvas</dt>
+                    <dd>{{ total | numero(0) }}</dd>
+                </div>
+                <div>
+                    <dt>Primeira</dt>
+                    <dd>{{ data_min | data_br(False) }}</dd>
+                </div>
+                <div>
+                    <dt>Mais recente</dt>
+                    <dd>{{ data_max | data_br(False) }}</dd>
+                </div>
+            </dl>
+            <div class="widget__rodape">
+                <span>Cada leitura do sensor gera as sete medidas com o mesmo horário.</span>
+            </div>
+            <a class="btn btn--pequeno widget__acao" href="{{ url_for('admin_bp.admin_page') if current_user.is_admin else url_for('user_bp.user_list') }}">{{ icone('tabela') }}Ver todas as leituras</a>
+        </div>
+    </section>
+
+    <section class="widget widget--largo" data-widget="riscos" aria-label="Alertas da última leitura">
+        <div class="widget__cabecalho">
+            <h3 class="widget__titulo">Alertas da última leitura</h3>
+            <span class="widget__alca">{{ icone('alca') }}</span>
+        </div>
+        <div class="widget__corpo">
+            {% if riscos %}
+            <ul class="lista-riscos">
+                {% for risco in riscos %}
+                <li>
+                    {{ badge(risco.texto, 'perigo', 'alerta') }}
+                    <span class="valor">{{ sensores_info[risco.tipo].nome }}: {{ risco.valor | valor_medida(risco.tipo) }}</span>
+                </li>
+                {% endfor %}
+            </ul>
+            {% else %}
+            <p>{{ badge('Sem alertas', 'sucesso', 'certo') }}</p>
+            <p class="texto-2 texto-pequeno">Nenhuma medida passou dos limites de seca, calor, acidez, alcalinidade ou salinidade.</p>
+            {% endif %}
+            <p class="widget__rodape widget__rodape--fim">Limites de referência gerais, não ajustados para uma cultura específica.</p>
+        </div>
+    </section>
+
+    {% for m in medidas %}
+    {% set info = sensores_info[m.tipo] %}
+    <section class="widget" data-widget="{{ m.tipo }}" aria-label="{{ info.nome }}" style="--m: {{ info.cor }}">
+        <div class="widget__cabecalho">
+            {{ simbolo(m.tipo) }}
+            <h3 class="widget__titulo">
+                <a class="widget__link" href="{{ url_for('leitura_bp.view_grafico', tipo=m.tipo) }}">{{ info.nome }}</a>
+            </h3>
+            <span class="widget__alca">{{ icone('alca') }}</span>
+        </div>
+        <div class="widget__corpo">
+            {% if m.atual %}
+            <div class="widget__valor-linha">
+                <p class="numero-grande">{{ m.atual.valor | numero(info.casas) }}{% if info.unidade %}<small>{{ info.unidade }}</small>{% endif %}</p>
+                {% if m.nivel %}{{ badge(m.nivel.texto, m.nivel.tom) }}{% endif %}
+            </div>
+
+            {% if m.variacao is not none %}
+            {% set sobe = m.variacao > 0 %}
+            <p class="variacao">
+                {{ icone('sobe' if sobe else 'desce' if m.variacao < 0 else 'igual') }}
+                {% if m.variacao %}{{ '+' if sobe }}{{ m.variacao | numero(info.casas) }} desde a leitura anterior{% else %}igual à leitura anterior{% endif %}
+            </p>
+            {% endif %}
+
+            {% if m.sparkline %}
+            <svg class="sparkline" viewBox="0 0 120 36" preserveAspectRatio="none" role="img"
+                 aria-label="Tendência das últimas {{ m.quantidade }} leituras">
+                <path class="sparkline__area" d="{{ m.sparkline.area }}"/>
+                <path class="sparkline__linha" d="{{ m.sparkline.linha }}"/>
+            </svg>
+            {% endif %}
+            <div class="widget__rodape">
+                <span>Últimas {{ m.quantidade }} leituras</span>
+                <span>{{ m.atual.timestamp | data_br }}</span>
+            </div>
+            {% else %}
+            <p class="texto-2 texto-pequeno">Sem leituras desta medida ainda.</p>
+            {% endif %}
+        </div>
+    </section>
+    {% endfor %}
+</div>
+{% endif %}
+{% endblock %}

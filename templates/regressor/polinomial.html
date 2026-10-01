@@ -1,0 +1,56 @@
+{% extends "layouts/app.html" %}
+{% from "regressor/_comum.html" import navegacao, cartao_r2, erro, termo with context %}
+{% from "components/ui.html" import simbolo with context %}
+
+{% block titulo %}Regressão polinomial{% endblock %}
+
+{% block conteudo %}
+{{ navegacao('admin_bp.regressor_polinomial') }}
+
+{% if resultado.erro %}
+{{ erro(resultado) }}
+{% else %}
+{%- set x = sensores_info[resultado.preditor] -%}
+{%- set y = sensores_info[resultado.alvo] -%}
+{%- set c = resultado.coeficientes -%}
+<div class="pagina-intro">
+    <div>
+        <h2>Uma curva entre {{ x.nome | inicial_minuscula }} e {{ y.nome | inicial_minuscula }}</h2>
+        <p>Polinômio de grau 2. Se o R² daqui for bem maior que o da <a href="{{ url_for('admin_bp.regressor_linear') }}">linear simples</a>, a relação entre as duas medidas é curva, não reta.</p>
+    </div>
+</div>
+
+<div class="grade-2">
+    <section class="card" aria-labelledby="titulo-equacao">
+        <header class="card__cabecalho card__cabecalho--borda">
+            <h2 class="card__titulo" id="titulo-equacao">Equação encontrada</h2>
+        </header>
+        <div class="card__corpo pilha">
+            <p class="equacao">
+                <var>{{ y.simbolo }}</var> = {{ resultado.intercepto | numero(4) }}
+                {% if c | length > 1 %}{{ termo(c[1]) }} × <var>{{ x.simbolo }}</var>{% endif %}
+                {% if c | length > 2 %}{{ termo(c[2], 6) }} × <var>{{ x.simbolo }}</var>²{% endif %}
+            </p>
+            <dl class="lista-definicoes">
+                <div>
+                    <dt>{{ simbolo(resultado.alvo, 'pequeno') }} {{ nome_sensor(resultado.alvo) }}</dt>
+                    <dd>O que o modelo tenta prever.</dd>
+                </div>
+                <div>
+                    <dt>{{ simbolo(resultado.preditor, 'pequeno') }} {{ nome_sensor(resultado.preditor) }}</dt>
+                    <dd>A medida usada para prever, com um termo linear e um ao quadrado.</dd>
+                </div>
+                {% if c | length > 2 %}
+                <div>
+                    <dt>Termo ao quadrado</dt>
+                    <dd>{{ 'Positivo: a curva abre para cima.' if c[2] > 0 else 'Negativo: a curva abre para baixo.' if c[2] < 0 else 'Zero: a curva vira uma reta.' }}</dd>
+                </div>
+                {% endif %}
+            </dl>
+        </div>
+    </section>
+
+    {{ cartao_r2(resultado) }}
+</div>
+{% endif %}
+{% endblock %}

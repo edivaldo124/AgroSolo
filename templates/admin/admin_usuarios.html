@@ -1,0 +1,46 @@
+{% extends "layouts/app.html" %}
+{% from "components/ui.html" import icone, avatar, vazio with context %}
+
+{% block titulo %}Usuários ativos{% endblock %}
+
+{% block conteudo %}
+<div class="pagina-intro">
+    <div>
+        <h2>Quem pode entrar</h2>
+        <p>Usuários com cadastro aprovado. Excluir um usuário remove o acesso dele; as leituras do sensor continuam salvas.</p>
+    </div>
+</div>
+
+<section class="card" aria-label="Usuários ativos">
+    {% if usuarios %}
+    <div class="tabela-rolagem">
+        <table class="tabela">
+            <thead>
+                <tr>
+                    <th scope="col">Nome</th>
+                    <th scope="col">Email</th>
+                    <th scope="col" class="acoes"><span class="oculto">Ações</span></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for u in usuarios %}
+                <tr>
+                    <td><span class="medida-rotulo">{{ avatar(u.nome, 'pequeno') }}<span>{{ u.nome }}</span></span></td>
+                    <td class="discreto">{{ u.email }}</td>
+                    <td class="acoes">
+                        <form method="POST" action="{{ url_for('admin_bp.admin_delete_usuario', id=u.id) }}"
+                              data-confirmar="Excluir {{ u.nome }}? A pessoa perde o acesso e precisará se cadastrar de novo.">
+                            <button type="submit" class="btn btn--perigo-contorno btn--pequeno">{{ icone('lixeira') }}Excluir</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="card__rodape">{{ usuarios | length }} {{ 'usuário' if usuarios | length == 1 else 'usuários' }}</div>
+    {% else %}
+    {{ vazio('Nenhum usuário aprovado', 'Quando você aprovar um cadastro, a pessoa aparece aqui.', url_for('admin_bp.usuarios_pendentes'), 'Ver cadastros esperando aprovação') }}
+    {% endif %}
+</section>
+{% endblock %}

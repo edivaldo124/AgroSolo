@@ -1,0 +1,14 @@
+{% extends "layouts/app.html" %}
+
+{% block titulo %}Todas as leituras{% endblock %}
+
+{% block conteudo %}
+<div class="pagina-intro">
+    <div>
+        <h2>Leituras do sensor</h2>
+        <p>Da mais recente para a mais antiga. Cada leitura do sensor aparece como sete linhas, uma por medida, com o mesmo horário.</p>
+    </div>
+</div>
+{% set admin = False %}
+{% include "partials/tabela_leituras.html" %}
+{% endblock %}

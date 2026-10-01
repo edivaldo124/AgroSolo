@@ -1,0 +1,26 @@
+{# Perfil de solo: as 7 medidas como horizontes, com a sonda RS485 cravada.
+   É o elemento de identidade do AgroSolo; aparece na home e nas telas de acesso. #}
+{% macro perfil(compacto=False, animado=False) -%}
+<figure class="perfil{{ ' perfil--compacto' if compacto }}{{ ' perfil--animado' if animado }}">
+    <div class="perfil__sonda" aria-hidden="true">
+        <span class="perfil__cabo"></span>
+        <span class="perfil__corpo"></span>
+        <span class="perfil__hastes"><span></span><span></span><span></span></span>
+    </div>
+    <ul class="perfil__camadas">
+        {% for tipo, info in sensores_info.items() %}
+        <li class="perfil__camada">
+            <span class="simbolo" aria-hidden="true">{{ info.simbolo }}</span>
+            <span class="perfil__nome">{{ info.nome }}</span>
+            <span class="perfil__faixa">{{ info.min | numero(0) }} a {{ info.max | numero(0) }}{{ ' ' ~ info.unidade if info.unidade }}</span>
+        </li>
+        {% endfor %}
+    </ul>
+    <figcaption class="oculto">As sete medidas lidas pelo sensor de solo RS485 e a faixa que ele consegue medir.</figcaption>
+</figure>
+{%- endmacro %}
+
+{# Símbolo da marca: quatro camadas de solo. #}
+{% macro estratos() -%}
+<span class="estratos" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+{%- endmacro %}

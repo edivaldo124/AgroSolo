@@ -1,0 +1,9 @@
+{% extends "layouts/app.html" %}
+
+{% block titulo %}Regras de risco{% endblock %}
+
+{% block conteudo %}
+{% set titulo = 'O que acompanha as situações de risco' %}
+{% set descricao = 'Igual às regras do solo, mas valores críticos viram riscos: seca, calor, acidez, alcalinidade e salinidade. Os riscos aparecem em vermelho.' %}
+{% include "associacao/_regras.html" %}
+{% endblock %}

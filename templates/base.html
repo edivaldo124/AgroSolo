@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block titulo %}{% endblock %}{% if self.titulo() | trim %} | {% endif %}{{ nome_projeto }}</title>
+    <meta name="description" content="Monitoramento do solo com o sensor RS485 7 em 1 no IFPB, campus Sousa.">
+    <meta name="theme-color" content="#2A1E17">
+    <link rel="icon" href="{{ url_for('static', filename='img/favicon.svg') }}" type="image/svg+xml">
+    <script>
+        (function () {
+            try {
+                var tema = JSON.parse(localStorage.getItem("agrosolo:tema"));
+                if (tema === "light" || tema === "dark") document.documentElement.dataset.theme = tema;
+            } catch (e) {}
+        })();
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&display=swap">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}">
+    {% block scripts_cabecalho %}{% endblock %}
+    <script defer src="{{ url_for('static', filename='js/app.js') }}"></script>
+</head>
+<body>
+{% block corpo %}{% endblock %}
+</body>
+</html>

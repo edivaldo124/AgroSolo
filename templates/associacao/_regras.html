@@ -1,0 +1,74 @@
+{# Espera: regras, titulo, descricao #}
+{% from "components/ui.html" import icone, badge, barra, vazio with context %}
+
+{% macro itens(texto) -%}
+<span class="regra">
+    {% for rotulo in texto.split(',') %}
+    {% set item = rotulo | item_regra %}
+    <span class="item-regra{{ ' item-regra--risco' if item.risco }}"{% if item.tipo and not item.risco %} style="--m: {{ sensores_info[item.tipo].cor }}"{% endif %}>{{ item.texto }}</span>
+    {% endfor %}
+</span>
+{%- endmacro %}
+
+<div class="pagina-intro">
+    <div>
+        <h2>{{ titulo }}</h2>
+        <p>{{ descricao }}</p>
+    </div>
+</div>
+
+<section class="card" aria-labelledby="como-ler">
+    <header class="card__cabecalho">
+        <h2 class="card__titulo" id="como-ler">Como ler</h2>
+    </header>
+    <dl class="card__corpo lista-definicoes lista-definicoes--colunas">
+        <div>
+            <dt>Suporte</dt>
+            <dd>Em quantas leituras, do total, a regra inteira aconteceu.</dd>
+        </div>
+        <div>
+            <dt>Confiança</dt>
+            <dd>Das leituras com a primeira parte, quantas também tiveram a segunda.</dd>
+        </div>
+        <div>
+            <dt>Força (lift)</dt>
+            <dd>Acima de 1, as duas partes aparecem juntas mais do que o acaso explicaria. Quanto maior, mais forte a ligação.</dd>
+        </div>
+    </dl>
+</section>
+
+<section class="card" aria-label="Regras encontradas">
+    {% if regras %}
+    <div class="tabela-rolagem">
+        <table class="tabela">
+            <thead>
+                <tr>
+                    <th scope="col">Quando aparece</th>
+                    <th scope="col"><span class="oculto">implica</span></th>
+                    <th scope="col">Costuma aparecer também</th>
+                    <th scope="col">Suporte</th>
+                    <th scope="col">Confiança</th>
+                    <th scope="col" class="num">Força (lift)</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for regra in regras %}
+                <tr>
+                    <td>{{ itens(regra.antecedente) }}</td>
+                    <td class="seta-regra" aria-hidden="true">{{ icone('chevron-direita') }}</td>
+                    <td>{{ itens(regra.consequente) }}</td>
+                    <td>{{ barra(regra.support, 'var(--tinta-3)') }}</td>
+                    <td>{{ barra(regra.confidence) }}</td>
+                    <td class="num">
+                        {{ badge(regra.lift | numero(2) ~ '×', 'sucesso' if regra.lift >= 1.2 else '') }}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="card__rodape">As {{ regras | length }} regras mais fortes, ordenadas pela força.</div>
+    {% else %}
+    {{ vazio('Nenhuma regra encontrada', 'Ainda não há leituras suficientes, ou nenhuma combinação se repete o bastante para virar regra. Volte quando o sensor tiver enviado mais dados.') }}
+    {% endif %}
+</section>

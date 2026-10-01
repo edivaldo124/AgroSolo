@@ -1,0 +1,22 @@
+{% extends "layouts/auth.html" %}
+{% from "components/ui.html" import campo_senha with context %}
+
+{% block titulo %}Entrar{% endblock %}
+{% block acao_topo %}<a class="btn btn--fantasma btn--pequeno" href="{{ url_for('admin_bp.admin_login') }}">Sou administrador</a>{% endblock %}
+{% block cabecalho %}Entrar{% endblock %}
+{% block subtitulo %}Use o email e a senha do seu cadastro.{% endblock %}
+
+{% block formulario %}
+<form method="POST">
+    <div class="campo">
+        <label class="campo__rotulo" for="email">Email</label>
+        <input class="entrada" type="email" id="email" name="email" autocomplete="email" inputmode="email" required autofocus>
+    </div>
+
+    {{ campo_senha('senha', 'senha', 'Senha') }}
+
+    <button type="submit" class="btn btn--primario btn--bloco">Entrar</button>
+</form>
+
+<p class="auth__troca">Ainda não tem conta? <a href="{{ url_for('user_bp.cadastro') }}">Criar conta</a></p>
+{% endblock %}

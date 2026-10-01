@@ -1,0 +1,66 @@
+{% from "components/ui.html" import icone, simbolo with context %}
+
+{% macro link(endpoint, texto, nome_icone=None, tipo=None, tambem=(), contador=None) -%}
+{%- set ativo = (request.endpoint == endpoint or request.endpoint in tambem)
+               and (tipo is none or (request.view_args or {}).get('tipo') == tipo) -%}
+<li>
+    <a class="rail__link" href="{{ url_for(endpoint, tipo=tipo) if tipo else url_for(endpoint) }}"{% if ativo %} aria-current="page"{% endif %}>
+        {% if tipo %}{{ simbolo(tipo, 'pequeno') }}{% elif nome_icone %}{{ icone(nome_icone) }}{% endif %}
+        <span>{{ texto }}</span>
+        {% if contador %}<span class="rail__contador" aria-label="{{ contador }} esperando">{{ contador }}</span>{% endif %}
+    </a>
+</li>
+{%- endmacro %}
+
+<div class="rail__grupo">
+    <ul>
+        {{ link('user_bp.painel_usuario', 'Painel', 'painel') }}
+    </ul>
+</div>
+
+<div class="rail__grupo">
+    <p class="rail__grupo-titulo" id="nav-medidas">Medidas</p>
+    <ul aria-labelledby="nav-medidas">
+        {% for tipo, info in sensores_info.items() %}
+        {{ link('leitura_bp.view_grafico', info.nome, tipo=tipo) }}
+        {% endfor %}
+    </ul>
+</div>
+
+{% if current_user.is_admin %}
+<div class="rail__grupo">
+    <p class="rail__grupo-titulo" id="nav-analises">Análises</p>
+    <ul aria-labelledby="nav-analises">
+        {{ link('admin_bp.grafico_filtrado', 'Gráfico por período', 'grafico') }}
+        {{ link('admin_bp.pagina_correlacao_solo', 'Correlação', 'correlacao') }}
+        {{ link('admin_bp.regras_solo', 'Regras do solo', 'regras') }}
+        {{ link('admin_bp.regras_risco', 'Regras de risco', 'alerta') }}
+        {{ link('admin_bp.regressor_linear', 'Regressões', 'tendencia',
+                tambem=('admin_bp.regressor_multipla', 'admin_bp.regressor_arvore', 'admin_bp.regressor_polinomial')) }}
+    </ul>
+</div>
+
+<div class="rail__grupo">
+    <p class="rail__grupo-titulo" id="nav-dados">Dados</p>
+    <ul aria-labelledby="nav-dados">
+        {{ link('admin_bp.admin_page', 'Todas as leituras', 'tabela', tambem=('admin_bp.filtrar_leituras',)) }}
+        {{ link('admin_bp.delete_by_date_page', 'Excluir por período', 'calendario-x') }}
+    </ul>
+</div>
+
+<div class="rail__grupo">
+    <p class="rail__grupo-titulo" id="nav-usuarios">Usuários</p>
+    <ul aria-labelledby="nav-usuarios">
+        {{ link('admin_bp.admin_usuarios', 'Ativos', 'usuarios') }}
+        {{ link('admin_bp.usuarios_pendentes', 'Esperando aprovação', 'usuario-espera', contador=pendentes()) }}
+    </ul>
+</div>
+{% else %}
+<div class="rail__grupo">
+    <p class="rail__grupo-titulo" id="nav-analises">Análises</p>
+    <ul aria-labelledby="nav-analises">
+        {{ link('leitura_bp.pagina_correlacao_solo', 'Correlação', 'correlacao') }}
+        {{ link('user_bp.user_list', 'Todas as leituras', 'tabela') }}
+    </ul>
+</div>
+{% endif %}

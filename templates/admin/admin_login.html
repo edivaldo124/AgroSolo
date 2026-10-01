@@ -1,0 +1,20 @@
+{% extends "layouts/auth.html" %}
+{% from "components/ui.html" import campo_senha with context %}
+
+{% block titulo %}Acesso do administrador{% endblock %}
+{% block acao_topo %}<a class="btn btn--fantasma btn--pequeno" href="{{ url_for('user_bp.login') }}">Entrar como usuário</a>{% endblock %}
+{% block cabecalho %}Administração{% endblock %}
+{% block subtitulo %}Aprove cadastros, gerencie leituras e veja as análises completas.{% endblock %}
+
+{% block formulario %}
+<form method="POST">
+    <div class="campo">
+        <label class="campo__rotulo" for="usuario">Usuário</label>
+        <input class="entrada" type="text" id="usuario" name="usuario" autocomplete="username" autocapitalize="none" spellcheck="false" required autofocus>
+    </div>
+
+    {{ campo_senha('senha', 'senha', 'Senha') }}
+
+    <button type="submit" class="btn btn--primario btn--bloco">Entrar</button>
+</form>
+{% endblock %}
