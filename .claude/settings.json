@@ -36,5 +36,9 @@
         "repo": "Egonex-AI/Understand-Anything"
       }
     }
+  },
+  "attribution": {
+    "commit": "",
+    "pr": ""
   }
 }
